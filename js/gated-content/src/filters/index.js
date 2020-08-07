@@ -19,23 +19,31 @@ const filters = [
     execute: (date) => {
       if (!date) return '';
 
+      function formatTime(date) {
+        const hours = date.getHours() % 12 || 12;
+        let minutes = '';
+        if (date.getMinutes() > 0) {
+          minutes = `:${date.getMinutes() < 10 ? '0' : ''}${date.getMinutes()}`;
+        }
+        const morning = date.getHours() < 12 ? 'AM' : 'PM';
+        let time = `${hours}${minutes} ${morning}`;
+        if (time === '12 PM') {
+          time = 'Noon';
+        }
+        return time;
+      }
+
       const dateStart = new Date(date.value);
       const dateEnd = new Date(date.end_value);
-      const startHours = dateStart.getHours() % 12 || 12;
-      const startMinutes = (dateStart.getMinutes() < 10 ? '0' : '') + dateStart.getMinutes();
-      const startMorning = dateStart.getHours() < 12 ? 'a.m.' : 'p.m.';
-      const endHours = dateEnd.getHours() % 12 || 12;
-      const endMinutes = (dateEnd.getMinutes() < 10 ? '0' : '') + dateEnd.getMinutes();
-      const endMorning = dateEnd.getHours() < 12 ? 'a.m.' : 'p.m.';
       const now = new Date();
 
-      let start = `${startHours}:${startMinutes} ${startMorning} - `;
+      let start = `${formatTime(dateStart)}–`;
 
       if (dateStart < now && now < dateEnd) {
         start = 'Until ';
       }
 
-      return `${start} ${endHours}:${endMinutes} ${endMorning}`;
+      return `${start}${formatTime(dateEnd)}`;
     },
   },
   {
