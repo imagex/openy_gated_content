@@ -2,18 +2,18 @@
   <div class="home">
     <VideoListing :featured="true" :viewAll="true" :limit="6"/>
     <EventListing
-      :featured="true"
-      :viewAll="true"
-      :limit="6"
-      :msg="'Live streams not found.'"
-    />
-    <EventListing
       :title="'Virtual meetings'"
       :featured="true"
       :viewAll="true"
       :limit="6"
       :eventType="'virtual_meeting'"
       :msg="'Virtual Meetings not found.'"
+    />
+    <EventListing
+      :featured="true"
+      :viewAll="true"
+      :limit="6"
+      :msg="'Live streams not found.'"
     />
     <BlogListing :featured="false" :viewAll="true" :limit="6"/>
   </div>
