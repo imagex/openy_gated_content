@@ -43,6 +43,13 @@ const routes = [
     component: VideoCategoriesListing,
     props: true,
     meta: { requiresAuth: true },
+    children: [
+      {
+        name: 'CategoryListing',
+        path: ':parentCategory',
+        props: true,
+      },
+    ],
   },
   {
     path: '/category/:cid',

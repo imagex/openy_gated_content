@@ -3,8 +3,8 @@
     <div class="videos__header">
       <h2 class="title">{{ title }}</h2>
       <router-link
-        :to="{ name: 'CategoryListing' }"
         v-if="viewAll && listingIsNotEmpty"
+        :to="{ name: 'CategoryListing', params: {parentCategory: this.category} }"
         class="view-all"
       >
         View All
@@ -61,6 +61,10 @@ export default {
       default: false,
     },
     viewAll: {
+      type: Boolean,
+      default: false,
+    },
+    viewSubCategories: {
       type: Boolean,
       default: false,
     },

@@ -1,8 +1,9 @@
 <template>
   <div class="live-stream-listing-page">
     <EventListing
+      :title="'Classes'"
       :withDateFilter="true"
-      :msg="'No Live streams scheduled for this date.'"
+      :msg="'No classes scheduled for this date.'"
     />
   </div>
 </template>

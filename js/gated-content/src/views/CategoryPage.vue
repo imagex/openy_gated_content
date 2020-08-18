@@ -4,7 +4,7 @@
     <div v-else-if="error">Error loading</div>
     <template v-else>
       <div class="category-details gated-container">
-        <router-link :to="{ name: 'CategoryListing' }">← Back to all categories</router-link>
+        <a @click="$router.go(-1)">← Back</a>
         <h2>{{ category.attributes.name }}</h2>
         <div
           v-if="category.attributes.description"

@@ -29,13 +29,13 @@ const filters = [
       const endMorning = dateEnd.getHours() < 12 ? 'a.m.' : 'p.m.';
       const now = new Date();
 
-      let start = `${startHours}:${startMinutes} ${startMorning} - `;
+      let start = `${startHours}:${startMinutes}-`;
 
       if (dateStart < now && now < dateEnd) {
         start = 'Until ';
       }
 
-      return `${start} ${endHours}:${endMinutes} ${endMorning}`;
+      return `${start}${endHours}:${endMinutes}`;
     },
   },
   {
@@ -51,6 +51,16 @@ const filters = [
       ];
 
       return monthNames[date.getMonth()];
+    },
+  },
+  {
+    name: 'plural',
+    execute: (value, singular, plural) => {
+      if (parseInt(value, 10) === 1) {
+        return `${value} ${singular}`;
+      }
+
+      return `${value} ${plural}`;
     },
   },
 ];

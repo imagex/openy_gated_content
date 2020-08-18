@@ -7,6 +7,7 @@
         v-if="image">
         </div>
         <div class="title">{{ category.attributes.name }}</div>
+        <div class="videos-count">{{ category.videosCount | plural('video', 'videos') }}</div>
     </router-link>
   </div>
 </template>
@@ -18,6 +19,10 @@ export default {
     category: {
       type: Object,
       required: true,
+    },
+    showCountVideos: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

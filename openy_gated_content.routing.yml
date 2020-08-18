@@ -23,9 +23,10 @@ openy_gated_content.settings:
     _permission: 'administer gated content configuration'
 
 openy_gated_content.categories:
-  path: '/api/video-categories-list'
+  path: '/api/video-categories-list/{parentCategory}'
   defaults:
     _controller: '\Drupal\openy_gated_content\Controller\CategoriesController::list'
     _title: 'Virtual Y categories'
+    parentCategory: ''
   requirements:
     _permission: 'access content'

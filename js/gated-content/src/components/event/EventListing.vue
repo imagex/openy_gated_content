@@ -63,7 +63,15 @@ export default {
       type: Boolean,
       default: false,
     },
+    viewAllCustomRoute: {
+      type: String,
+      default: '',
+    },
     withDateFilter: {
+      type: Boolean,
+      default: false,
+    },
+    onlyTodayFilter: {
       type: Boolean,
       default: false,
     },
@@ -154,6 +162,18 @@ export default {
           },
         },
       };
+
+      if (this.onlyTodayFilter) {
+        const date = new Date();
+        date.setHours(23, 59, 59);
+        params.filter.onlyTodayFilter = {
+          condition: {
+            path: 'date.value',
+            operator: '<=',
+            value: date.toISOString(),
+          },
+        };
+      }
 
       if (this.withDateFilter) {
         params.filter.dateFilterStart = {

@@ -10,6 +10,7 @@
         v-for="category in listing"
         :key="category.id"
         :category="category"
+        :show-count-videos="showCountVideos"
       />
     </div>
   </div>
@@ -32,6 +33,14 @@ export default {
     title: {
       type: String,
       default: 'Categories',
+    },
+    parentCategory: {
+      type: String,
+      default: '',
+    },
+    showCountVideos: {
+      type: Boolean,
+      default: false,
     },
     msg: String,
   },
@@ -64,7 +73,7 @@ export default {
       }
 
       client
-        .get('api/video-categories-list', { params })
+        .get(`api/video-categories-list/${this.parentCategory}`, { params })
         .then((response) => {
           params.filter = {};
           if (response.data.length > 0) {
@@ -72,7 +81,9 @@ export default {
               condition: {
                 path: 'id',
                 operator: 'IN',
-                value: response.data,
+                value: response.data.flatMap((value) => {
+                  return value.uuid;
+                }),
               },
             };
 
@@ -84,6 +95,13 @@ export default {
                   response2.data.included,
                   this.params,
                 );
+                this.listing = this.listing.flatMap((value) => {
+                  const newValue = value;
+                  newValue.videosCount = response.data
+                    .find((element) => element.uuid === value.id).videosCount;
+                  return newValue;
+                });
+                console.log(this.listing);
                 this.loading = false;
               })
               .catch((error) => {
