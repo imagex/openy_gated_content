@@ -9,12 +9,12 @@
         </div>
         <div class="title">{{ video.attributes.title }}</div>
         <div
-          v-if="video.attributes.field_gc_video_level"
+          v-if="category"
           class="meta">
           <div class="video-level">
-            {{ video.attributes.field_gc_video_level.name | first_letter }}
+            {{ category | first_letter }}
           </div>
-          {{ video.attributes.field_gc_video_level.name | capitalize }}
+          {{ category | capitalize }}
         </div>
     </router-link>
   </div>
@@ -35,6 +35,13 @@ export default {
     },
   },
   computed: {
+    category() {
+      if (this.video.attributes.field_gc_video_category.length > 0) {
+        return this.video.attributes.field_gc_video_category[0].name;
+      }
+
+      return '';
+    },
     image() {
       if (this.video.attributes['field_gc_video_image.field_media_image']) {
         return this.video.attributes['field_gc_video_image.field_media_image']

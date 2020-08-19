@@ -33,7 +33,7 @@
 import client from '@/client';
 import VideoTeaser from '@/components/video/VideoTeaser.vue';
 import Spinner from '@/components/Spinner.vue';
-import { JsonApiCombineMixin } from '@/mixins/JsonApiCombineMixin';
+import {JsonApiCombineMixin} from '@/mixins/JsonApiCombineMixin';
 
 export default {
   name: 'VideoListing',
@@ -103,6 +103,51 @@ export default {
     },
   },
   methods: {
+    /**
+     * this.category can be root category or sub-category
+     * in any case all root categories and other roots needs to be deleted
+     */
+    cleanNonRelatedCategories(listing, included) {
+      if (!this.category) {
+        return listing;
+      }
+      const componentCategoryId = this.category.toString();
+
+      const componentCategory = included.find((item) => {
+        if (item.type !== 'taxonomy_term--gc_category') {
+          return false;
+        }
+
+        return item.id === componentCategoryId;
+      });
+
+      if (componentCategory === undefined) {
+        return listing;
+      }
+
+      let componentCategoryParentId = componentCategory.relationships.parent.data[0].id;
+      if (componentCategoryParentId === 'virtual') {
+        componentCategoryParentId = componentCategory.id;
+      }
+
+      const subCategoriesTids = included.filter((item) => {
+        if (item.type !== 'taxonomy_term--gc_category') {
+          return false;
+        }
+
+        return item.relationships.parent.data[0].id === componentCategoryParentId;
+      }).flatMap((item) => {
+        return item.attributes.drupal_internal__tid;
+      });
+
+      return listing.flatMap((item) => {
+        const categories = item.attributes.field_gc_video_category;
+        item.attributes.field_gc_video_category = categories.filter((categ) => {
+          return subCategoriesTids.includes(categ.drupal_internal__tid);
+        });
+        return item;
+      });
+    },
     async load() {
       this.loading = true;
       const params = {};
@@ -150,6 +195,7 @@ export default {
             response.data.included,
             this.params,
           );
+          this.listing = this.cleanNonRelatedCategories(this.listing, response.data.included);
           if (this.featuredLocal === true && this.listing.length === 0) {
             // Load one more time without featured filter.
             this.featuredLocal = false;

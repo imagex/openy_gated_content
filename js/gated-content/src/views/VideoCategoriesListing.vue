@@ -101,7 +101,6 @@ export default {
                     .find((element) => element.uuid === value.id).videosCount;
                   return newValue;
                 });
-                console.log(this.listing);
                 this.loading = false;
               })
               .catch((error) => {

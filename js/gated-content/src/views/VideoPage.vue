@@ -32,7 +32,7 @@
               Instructor: {{ video.attributes.field_gc_video_instructor }}
             </div>
             <div class="video-footer__block">
-              Category: {{ video.attributes.field_gc_video_category.name }}
+              Category: {{ video.attributes.field_gc_video_category[1].name }}
             </div>
             <div
               v-if="video.attributes.field_gc_video_equipment.length > 0"
@@ -54,17 +54,17 @@
           <router-link :to="{
             name: 'Category',
             params: {
-              cid: video.relationships.field_gc_video_category.data.id
+              cid: video.relationships.field_gc_video_category.data[0].id
             }
           }">
-            {{ video.attributes.field_gc_video_category.name }}
+            {{ video.attributes.field_gc_video_category[0].name }}
           </router-link>
         </div>
       </div>
       <VideoListing
         :title="'UP NEXT'"
         :excluded-video-id="video.id"
-        :category="video.relationships.field_gc_video_category.data.id"
+        :category="video.relationships.field_gc_video_category.data[0].id"
         :viewAll="true"
         :limit="6"
       />
@@ -124,6 +124,7 @@ export default {
         .get(`jsonapi/node/gc_video/${this.id}`, { params })
         .then((response) => {
           this.video = this.combine(response.data.data, response.data.included, this.params);
+          console.log(this.video);
           this.loading = false;
         }).then(() => {
           this.$log.trackEventEntityView('node', 'gc_video', this.video.attributes.drupal_internal__nid);

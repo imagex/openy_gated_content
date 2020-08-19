@@ -21,6 +21,12 @@
           <i class="fa fa-clock-o" aria-hidden="true"></i>
           {{ this.video.attributes.date | schedule }}
         </div>
+        <div class="category" v-if="category">
+          <div class="video-level">
+            {{ category | first_letter }}
+          </div>
+          {{ category | capitalize }}
+        </div>
       </div>
       <div v-if="isOnAir" class="controls join">
         <router-link
@@ -63,6 +69,10 @@ export default {
     level() {
       return this.video.attributes.field_ls_level ? this.video.attributes.field_ls_level.name
         : this.video.attributes.level.name;
+    },
+    category() {
+      return this.video.attributes.field_ls_category ? this.video.attributes.field_ls_category.name
+        : this.video.attributes.category.name;
     },
     isOnAir() {
       const dateStart = new Date(this.video.attributes.date.value);
