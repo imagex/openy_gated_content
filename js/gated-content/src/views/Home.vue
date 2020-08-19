@@ -9,21 +9,21 @@
     />
     <VideoListing
       :title="'Strength Workouts'"
-      :category="'58d37870-df57-4dd3-895f-a2841c6bcd3b'"
+      :category="'12bb1869-f9c4-4198-ae77-f4a634b57376'"
       :viewAll="true"
       :limit="3"
       :featured="true"
     />
     <VideoListing
       :title="'Conditioning Workouts'"
-      :category="'ac9d462b-a1c9-461c-abc0-e4a12ab25627'"
+      :category="'57f8f0d2-4884-444d-9bb4-02719a95dc87'"
       :viewAll="true"
       :limit="3"
       :featured="true"
     />
     <VideoListing
       :title="'Balance Workouts'"
-      :category="'bef01482-bd76-4c5b-b8f5-612996a0cb0e'"
+      :category="'7b436669-1450-4e78-bfb2-5d41a1cbf08e'"
       :viewAll="true"
       :limit="3"
       :featured="true"
