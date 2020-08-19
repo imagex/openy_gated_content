@@ -124,7 +124,6 @@ export default {
         .get(`jsonapi/node/gc_video/${this.id}`, { params })
         .then((response) => {
           this.video = this.combine(response.data.data, response.data.included, this.params);
-          console.log(this.video);
           this.loading = false;
         }).then(() => {
           this.$log.trackEventEntityView('node', 'gc_video', this.video.attributes.drupal_internal__nid);

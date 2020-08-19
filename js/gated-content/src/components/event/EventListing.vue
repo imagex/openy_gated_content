@@ -244,7 +244,6 @@ export default {
             response.data.included,
             this.params,
           );
-          console.log(this.listing);
           if (this.featuredLocal === true && this.listing.length === 0) {
             // Load one more time without featured filter.
             this.featuredLocal = false;
