@@ -1,5 +1,5 @@
 <template>
-  <div class="gated-content-video-page">
+  <div class="gated-content-video-page gated-content-live-stream-page">
     <div v-if="loading" class="text-center">
       <Spinner></Spinner>
     </div>
