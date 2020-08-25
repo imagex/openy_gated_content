@@ -11,10 +11,15 @@
         <div
           v-if="category"
           class="meta">
-          <div class="video-level">
-            {{ category | first_letter }}
+          <div
+            class="teaser-category"
+            v-for="cat_name in categories"
+          >
+            <div class="video-level">
+              {{ cat_name | first_letter }}
+            </div>
+            {{ cat_name | capitalize }}
           </div>
-          {{ category | capitalize }}
         </div>
     </router-link>
   </div>
@@ -41,6 +46,9 @@ export default {
       }
 
       return '';
+    },
+    categories() {
+      return this.video.attributes.field_gc_video_category.flatMap((item) => item.name);
     },
     image() {
       if (this.video.attributes['field_gc_video_image.field_media_image']) {

@@ -1,6 +1,8 @@
 <template>
   <div class="blog-listing-page">
-    <BlogListing/>
+    <BlogListing
+      :title="'More info'"
+    />
   </div>
 </template>
 

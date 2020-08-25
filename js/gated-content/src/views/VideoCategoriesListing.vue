@@ -1,5 +1,5 @@
 <template>
-  <div v-if="listingIsNotEmpty" class="gated-container">
+  <div v-if="listingIsNotEmpty" class="gated-container video-categories-listing-component">
     <h2 class="title">{{ title }}</h2>
     <div v-if="loading" class="text-center">
       <Spinner></Spinner>
@@ -76,12 +76,17 @@ export default {
         .get(`api/video-categories-list/${this.parentCategory}`, { params })
         .then((response) => {
           params.filter = {};
-          if (response.data.length > 0) {
+
+          if (response.data.parent_category_name) {
+            this.title = response.data.parent_category_name;
+          }
+
+          if (response.data.categories.length > 0) {
             params.filter.excludeSelf = {
               condition: {
                 path: 'id',
                 operator: 'IN',
-                value: response.data.flatMap((value) => {
+                value: response.data.categories.flatMap((value) => {
                   return value.uuid;
                 }),
               },
@@ -97,7 +102,7 @@ export default {
                 );
                 this.listing = this.listing.flatMap((value) => {
                   const newValue = value;
-                  newValue.videosCount = response.data
+                  newValue.videosCount = response.data.categories
                     .find((element) => element.uuid === value.id).videosCount;
                   return newValue;
                 });

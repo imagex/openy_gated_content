@@ -42,18 +42,23 @@ class CategoriesController implements ContainerInjectionInterface {
    * Provides a list of categories uuid's that contains videos.
    */
   public function list($parentCategory) {
+    $parentCatName = '';
+
     if (empty($parentCategory)) {
-      $parentCategory = 0;
+      $parentCategory = ['tid' => 0];
     } else {
-      $parentCategory = $this->database
-        ->select('taxonomy_term_data', 't')
-        ->fields('t', ['tid'])
-        ->condition('uuid', $parentCategory)
-        ->execute()->fetchField();
+      $query = $this->database->select('taxonomy_term_data', 't');
+      $query->leftJoin('taxonomy_term_field_data', 'tf', 't.tid = tf.tid');
+      $query->fields('t', ['tid'])
+        ->fields('tf', ['name'])
+        ->condition('uuid', $parentCategory);
+      $parentCategory = $query->execute()->fetchAssoc();
 
       if (empty($parentCategory)) {
         return new JsonResponse('Not found', 404);
       }
+
+      $parentCatName = $parentCategory['name'];
     }
 
     $query = $this->database->select('node__field_gc_video_category', 'n');
@@ -62,7 +67,7 @@ class CategoriesController implements ContainerInjectionInterface {
     $query->leftJoin('taxonomy_term__parent', 'tp', 't.tid = tp.entity_id');
     $query->condition('t.vid', 'gc_category');
     $query->condition('tf.status', 1);
-    $query->condition('tp.parent_target_id', $parentCategory);
+    $query->condition('tp.parent_target_id', $parentCategory['tid']);
     $query->fields('t', ['uuid']);
     $query->addExpression('COUNT(n.field_gc_video_category_target_id)', 'videosCount');
     $query->groupBy('t.uuid');
@@ -70,7 +75,10 @@ class CategoriesController implements ContainerInjectionInterface {
     $query->having('COUNT(n.field_gc_video_category_target_id) > 0');
     $result = $query->execute()->fetchAll();
 
-    return new JsonResponse($result);
+    return new JsonResponse([
+      'parent_category_name' => $parentCatName,
+      'categories' => $result
+    ]);
   }
 
 }

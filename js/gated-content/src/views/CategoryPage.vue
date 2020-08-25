@@ -5,14 +5,13 @@
     <template v-else>
       <div class="category-details gated-container">
         <a @click="$router.go(-1)">← Back</a>
-        <h2>{{ category.attributes.name }}</h2>
         <div
           v-if="category.attributes.description"
           v-html="category.attributes.description.processed"
         ></div>
       </div>
       <VideoListing
-        :title="'Videos'"
+        :title="category.attributes.name"
         :category="category.id"
       />
     </template>

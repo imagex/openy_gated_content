@@ -1,33 +1,20 @@
 <template>
-  <div class="gated-content-blog-page">
+  <div class="gated-content-blog-page gated-container">
     <div v-if="loading" class="text-center">
       <Spinner></Spinner>
     </div>
     <div v-else-if="error">Error loading</div>
     <template v-else>
-      <div class="blog-page__image-container">
-        <div class="blog-page__image" v-bind:style="{
-                backgroundImage: `url(${image})`
-        }">
-        </div>
-        <div class="blog-header gated-container">
-          <h2>{{ blog.attributes.title }}</h2>
-        </div>
+      <div class="blog-header">
+        <h2>{{ blog.attributes.title }}</h2>
       </div>
-      <div class="blog-content gated-container">
+      <div class="blog-content">
         <div
           v-if="blog.attributes.field_vy_blog_description"
           class="blog-content__description"
           v-html="blog.attributes.field_vy_blog_description.processed"
         ></div>
       </div>
-
-      <BlogListing
-        :title="'NEXT BLOG POSTS'"
-        :excluded-id="blog.id"
-        :viewAll="true"
-        :limit="6"
-      />
     </template>
   </div>
 </template>
