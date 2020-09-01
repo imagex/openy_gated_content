@@ -29,7 +29,7 @@
       :featured="true"
     />
 
-    <BlogListing :title="'More info'" :featured="false" :viewAll="true" :limit="6"/>
+    <BlogListing :title="'Y Plus'" :featured="false" :viewAll="true" :limit="6"/>
   </div>
 </template>
 

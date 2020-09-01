@@ -1,7 +1,7 @@
 <template>
   <div class="blog-listing-page">
     <BlogListing
-      :title="'More info'"
+      :title="'Y Plus'"
     />
   </div>
 </template>
