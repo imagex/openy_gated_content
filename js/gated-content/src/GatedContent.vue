@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav class="text-right gated-container" v-if="isLoggedIn">
-      <router-link :to="{ name: 'Home' }">Home</router-link> |
+      <router-link :to="{ name: 'Home' }">VirtualY Home</router-link> |
       <LogoutLink />
     </nav>
     <router-view/>
