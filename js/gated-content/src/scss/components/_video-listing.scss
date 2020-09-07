@@ -6,6 +6,7 @@
 
     @media all and (max-width: 600px) {
       align-items: flex-start;
+      flex-direction: column;
 
       .view-all {
         font-size: 18px;
