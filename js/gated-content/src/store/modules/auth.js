@@ -7,6 +7,7 @@ export default {
     name: null,
     user: {},
     loggedIn: false,
+    loggedInWith: '',
     appUrl: '',
   },
   actions: {
@@ -28,6 +29,7 @@ export default {
     setUser(state, user) {
       state.user = user;
       state.loggedIn = true;
+      state.loggedInWith = state.authPlugin;
     },
     unsetUser(state) {
       state.user = {};
@@ -41,7 +43,13 @@ export default {
     },
   },
   getters: {
-    isLoggedIn: (state) => state.loggedIn,
+    isLoggedIn: (state) => {
+      if (state.authPlugin !== state.loggedInWith) {
+        return false;
+      }
+
+      return state.loggedIn;
+    },
     authPlugin: (state) => state.authPlugin,
     getAppUrl: (state) => state.appUrl,
     getUser: (state) => state.user,

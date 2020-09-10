@@ -41,6 +41,10 @@ export default {
     this.$store.dispatch('setAuthPlugin', this.auth);
     this.$store.dispatch('setSettings', JSON.parse(this.settings));
     this.$store.dispatch(`${this.auth}Configure`, JSON.parse(this.config));
+
+    if (!this.isLoggedIn) {
+      this.$router.push({ name: 'Login' }).catch(() => {});
+    }
   },
 };
 </script>
