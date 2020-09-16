@@ -4,8 +4,9 @@
       :title="'Today\'s classes'"
       :only-today-filter="true"
       :viewAll="true"
-      :limit="3"
-      :msg="'No classes today.'"
+      :limit="99"
+      :msg="'Thanks for Visiting the Virtual Y! We\'ve finished our ' +
+       'classes for the day, but be sure to check out tomorrow’s schedule!'"
     />
     <VideoListing
       :title="'Strength Workouts'"
