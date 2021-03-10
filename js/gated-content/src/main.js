@@ -1,5 +1,9 @@
 import Vue from 'vue';
 import { sync } from 'vuex-router-sync';
+import updateLocale from 'dayjs/plugin/updateLocale';
+import duration from 'dayjs/plugin/duration';
+import advancedFormat from 'dayjs/plugin/advancedFormat';
+import dayjs from 'dayjs';
 import App from './GatedContent.vue';
 import router from './router';
 import store from './store';
@@ -16,6 +20,15 @@ sync(store, router);
 
 filters.forEach((f) => {
   Vue.filter(f.name, f.execute);
+});
+
+dayjs.extend(duration);
+dayjs.extend(advancedFormat);
+dayjs.extend(updateLocale);
+dayjs.updateLocale('en', {
+  meridiem(hours) {
+    return hours < 12 ? 'a.m.' : 'p.m.';
+  },
 });
 
 new Vue({
